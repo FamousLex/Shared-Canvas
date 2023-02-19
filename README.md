@@ -7,7 +7,7 @@
 - Works across both mobile and desktop platforms
 
 ## Planned updates
-- Ability to change brush color and size
+- Ability to change brush style, color and size
 - Erase and undo functionality
 - Ability to zoom, expand and pan throughout the canvas
 - Increased refresh period so drawings stay up much longer, up to one week!

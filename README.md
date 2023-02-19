@@ -1,5 +1,5 @@
-#H1
+# H1
 Shared-Canvas
 
-#H2
+## H2
 A shared canvas between multiple users

@@ -1,5 +1,4 @@
-# H1
-Shared-Canvas
+# Shared Canvas v1.0
 
-## H2
-A shared canvas between multiple users
+## A webpage where users can collectively draw one shared canvas!
+

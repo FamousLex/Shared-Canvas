@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "- Vist the webpage at the following address: [54.82.40.33](http://54.82.40.33)\r - Draw alongside other users in real time\r - Change the color of your brush by refreshing the page\r - Works across both mobile and desktop platforms",
   "main": "echoSocket.js",
+  "type": "module",
   "scripts": {
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,7 +14,10 @@
   "devDependencies": {
     "@types/p5": "^1.7.6",
     "@types/ws": "^8.5.10",
-    "typescript": "^5.4.3"
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.3",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
     "p5": "^1.9.2",

@@ -2,6 +2,8 @@ import WebSocket, { WebSocketServer } from 'ws';
 
 const wss = new WebSocketServer({ port: 3000 });
 
+console.log('Websocket is running on ws://localhost:3000');
+
 wss.on('connection', function connection(ws) {
   console.log('new connection');
   ws.on('message', function message(data, isBinary) {

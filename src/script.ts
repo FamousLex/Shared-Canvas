@@ -1,7 +1,7 @@
-import {} from "p5/global";
+import p5 from 'p5';
 
 let socket = new WebSocket("ws://localhost:3000"); //make me a socket
-let c: number; // color variable
+let c: number = 0; // color variable
 
 let mySound;
 let dragSound;
@@ -10,23 +10,6 @@ let colorPicker;
 
 var now = new Date();
 var startTicks = now.getTime();
-
-
-function preload() {
-    // soundFormats('mp3', 'wav');
-    // mySound = loadSound('PS2.wav'); //load before all else
-    // dragSound = loadSound('fx.wav');
-}
-
-function setup() {
-    createCanvas(windowWidth, windowHeight);
-    colorMode(HSB, 255);
-    background(0);
-    c = random(255); //random color
-    noStroke();
-    colorPicker = createColorPicker('#ed225d');
-    colorPicker.position(0, height + 5);
-}
 
 function detectMob() {
     if(( window.innerWidth <= 800 ) && ( window.innerHeight <= 600 )){
@@ -37,72 +20,63 @@ function detectMob() {
     }
 };
 
-const bodyElement = document.getElementById('body');
-if (bodyElement !== null){
-    bodyElement.ontouchend = (e) => {
-        e.preventDefault();
-    };
-}
+const s = (p: p5) => {
+  p.preload = () => {
+    // Load your sounds and other assets
+    // mySound = p.loadSound('PS2.wav');
+    // dragSound = p.loadSound('fx.wav');
+  };
 
-// function windowResized() {
-//     resizeCanvas(windowWidth, windowHeight, true);
-//   }
+  p.setup = () => {
+    p.createCanvas(p.windowWidth, p.windowHeight);
+    p.colorMode(p.HSB, 255);
+    p.background(0);
+    c = p.random(255); //random color
+    p.noStroke();
+    // Initialize your color picker and other elements here
+    // Note: DOM elements might need to be handled differently in instance mode
+  };
 
-function draw() {
-    var currentNow = new Date();
-    var currentTicks = currentNow.getTime();
-    if (currentTicks - startTicks >= 500){
-        noStroke();
-        fill(0, 20);
-        rect(0, 0, width, height);
-        startTicks = currentTicks;
+  p.draw = () => {
+    let currentNow = new Date();
+    let currentTicks = currentNow.getTime();
+    if (currentTicks - startTicks >= 500) {
+      p.noStroke();
+      p.fill(0, 20);
+      p.rect(0, 0, p.width, p.height);
+      startTicks = currentTicks;
     }
+  };
 
-
-}
-
-socket.onopen = function(e) {
-    console.log("connection established!!!!!"); //confirming message
-    // mySound.play();
-}
-
-socket.onmessage = function(e) {
-    let message = JSON.parse(e.data);
-
-    if (message.type === 'line'){
-        stroke(message.c, 255, 255);
-        strokeWeight(message.strokeWeight);
-        line(message.x1 * width, message.y1 * height, message.x2 * width, message.y2 * height);
+  p.mouseDragged = () => {
+    if (c === 0) {
+      return; // Skip function if c hasn't been set yet
     }
-}
-
-function mouseDragged() {
-    let relX = mouseX / width;
-    let relY = mouseY / height;
-    let relPMouseX = pmouseX / width;
-    let relPMouseY = pmouseY / height;
-    let distance = dist(mouseX, mouseY, pmouseX, pmouseY);
+    let relX = p.mouseX / p.width;
+    let relY = p.mouseY / p.height;
+    let relPMouseX = p.pmouseX / p.width;
+    let relPMouseY = p.pmouseY / p.height;
+    let distance = p.dist(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
     let strokeWeightVal = detectMob() ? distance / 10 : distance / 30;
 
-    strokeWeightVal = constrain(strokeWeightVal, 1, 20);
+    strokeWeightVal = p.constrain(strokeWeightVal, 1, 20);
 
-    stroke(c, 255, 255);
-    strokeWeight(strokeWeightVal);
-    line(pmouseX, pmouseY, mouseX, mouseY);
+    p.stroke(c, 255, 255);
+    p.strokeWeight(strokeWeightVal);
+    p.line(relPMouseX * p.width, relPMouseY * p.height, relX * p.width, relY * p.height);
 
-    // let pbRate = map(mouseY, height, 0, .25, 2.);
-    // let rlSpace = map(mouseX, 0., width, -1., 1.);
-    // dragSound.rate(pbRate);
-    // dragSound.pan(rlSpace);
-    // dragSound.play();
     let message = JSON.stringify({
-        type: 'line',
-        x1: relPMouseX,
-        y1: relPMouseY,
-        x2: relX,
-        y2: relY,
-        c: c,
-        strokeWeight: strokeWeightVal
+      type: 'line',
+      x1: relPMouseX,
+      y1: relPMouseY,
+      x2: relX,
+      y2: relY,
+      c: c,
+      strokeWeight: strokeWeightVal
     });
     socket.send(message);
-}
+  };
+};
+
+new p5(s);
+

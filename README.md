@@ -1,7 +1,7 @@
 # Shared Canvas v1.0
 
 ## A webpage where users can collectively draw one shared canvas!
-- Vist the webpage at the following address: [54.82.40.33](http://54.82.40.33)
+- Vist the webpage at the following link: [Shared Canvas](http://3.80.217.186:4000/)
 - Draw alongside other users in real time
 - Change the color of your brush by refreshing the page
 - Works across both mobile and desktop platforms
